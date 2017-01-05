@@ -7,6 +7,28 @@
     <version>1.0</version>
     <name>qrcode-utils</name>
     <url>https://github.com/binarywang/qrcode-utils</url>
+    <description>qrcode utils</description>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/binarywang/qrcode-utils.git</connection>
+        <developerConnection>scm:git:git@github.com:binarywang/qrcode-utils.git</developerConnection>
+        <url>https://github.com/binarywang/qrcode-utils</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Binary Wang</name>
+            <email>binarywang@gmail.com</email>
+            <url>https://github.com/binarywang</url>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
