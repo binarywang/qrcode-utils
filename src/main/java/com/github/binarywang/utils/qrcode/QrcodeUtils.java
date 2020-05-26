@@ -56,14 +56,15 @@ public class QrcodeUtils {
   }
 
   /**
-   * 根据指定边长创建生成的二维码
+   * 根据指定边长创建生成的二维码，允许配置logo属性
    *
    * @param content  二维码内容
    * @param length   二维码的高度和宽度
    * @param logoFile logo 文件对象，可以为空
+   * @param logoConfig logo配置，可设置logo展示长宽，边框颜色
    * @return 二维码图片的字节数组
    */
-  public static byte[] createQrcode(String content, int length, File logoFile) {
+  public static byte[] createQrcode(String content, int length, File logoFile, MatrixToLogoImageConfig logoConfig) {
     if (logoFile != null && !logoFile.exists()) {
       throw new IllegalArgumentException("请提供正确的logo文件！");
     }
@@ -80,7 +81,7 @@ public class QrcodeUtils {
       if (logoFile != null) {
         // 添加logo图片, 此处一定需要重新进行读取，而不能直接使用二维码的BufferedImage 对象
         BufferedImage img = ImageIO.read(file);
-        overlapImage(img, FORMAT, file.getAbsolutePath(), logoFile, new MatrixToLogoImageConfig());
+        overlapImage(img, FORMAT, file.getAbsolutePath(), logoFile, logoConfig);
       }
 
       return toByteArray(file);
@@ -88,6 +89,18 @@ public class QrcodeUtils {
       logger.warn("内容为：【" + content + "】的二维码生成失败！", e);
       return null;
     }
+  }
+
+  /**
+   * 根据指定边长创建生成的二维码
+   *
+   * @param content  二维码内容
+   * @param length   二维码的高度和宽度
+   * @param logoFile logo 文件对象，可以为空
+   * @return 二维码图片的字节数组
+   */
+  public static byte[] createQrcode(String content, int length, File logoFile) {
+    return  createQrcode(content, length, logoFile, new MatrixToLogoImageConfig());
   }
 
   /**
