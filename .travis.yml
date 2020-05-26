@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - openjdk7
+  - openjdk8
 
 script: "mvn clean package -Dmaven.test.skip=true"
 
