@@ -4,7 +4,7 @@
     <groupId>com.github.binarywang</groupId>
     <artifactId>qrcode-utils</artifactId>
     <packaging>jar</packaging>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>qrcode-utils</name>
     <url>https://github.com/binarywang/qrcode-utils</url>
     <description>qrcode utils</description>
