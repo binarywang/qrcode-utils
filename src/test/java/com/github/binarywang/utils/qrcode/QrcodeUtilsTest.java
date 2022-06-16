@@ -1,20 +1,23 @@
 package com.github.binarywang.utils.qrcode;
 
 import java.awt.image.BufferedImage;
-import com.beust.jcommander.internal.Lists;
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.*;
-import org.testng.annotations.*;
-import javax.imageio.ImageIO;
-
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import com.beust.jcommander.internal.Lists;
 
 /**
  * <pre>
@@ -72,10 +75,9 @@ public class QrcodeUtilsTest {
 
     @Test
     public void testPersonCode() throws Exception {
-        File file = new File("/home/xkj/Pictures/tx1.mini.png");
-        File outFile = new File("/home/xkj/Temp/testQr.png");
-        outFile.createNewFile();
-        BufferedImage img = QrcodeUtils.generateQRCodeImage("https://www.baidu.com", file);
+        BufferedImage img = QrcodeUtils.generateQRCodeImage(content, 400, ClassLoader.getSystemResourceAsStream("logo.png"));
+        File outFile = Files.createTempFile("qrcode_with_logo_", ".jpg").toFile();
+        logger.info("{}", outFile.getAbsolutePath());
         ImageIO.write(img, "png", outFile);
     }
 

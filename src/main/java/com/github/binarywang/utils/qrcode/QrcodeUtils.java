@@ -1,11 +1,13 @@
 package com.github.binarywang.utils.qrcode;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.RoundRectangle2D.Double;
 import java.awt.RenderingHints;
+import java.awt.Transparency;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,7 +82,7 @@ public class QrcodeUtils {
    * @return 二维码图片的字节数组
    */
   public static byte[] createQrcode(String content, int length, File logoFile, MatrixToLogoImageConfig logoConfig) throws Exception {
-    if (logoFile != null && !logoFile.exists()) {
+    if (logoFile == null || !logoFile.exists()) {
       throw new IllegalArgumentException("请提供正确的logo文件！");
     }
     InputStream logo = new FileInputStream(logoFile);
@@ -168,15 +170,29 @@ public class QrcodeUtils {
       MatrixToLogoImageConfig logoConfig) throws IOException {
     BufferedImage logoImg = ImageIO.read(logo);
     logoImg = clipRound(logoImg);
-    Graphics2D g = image.createGraphics();
+    Graphics2D g = logoImg.createGraphics();
     // 考虑到logo图片贴到二维码中，建议大小不要超过二维码的1/5;
     int width = image.getWidth() / logoConfig.getLogoPart();
     int height = image.getHeight() / logoConfig.getLogoPart();
-    int radius = width / 10;
+    int radius = width / 10; 
     // logo起始位置，此目的是为logo居中显示
     int x = (image.getWidth() - width) / 2;
     int y = (image.getHeight() - height) / 2;
-    // 绘制图
+    
+    // 创建一个支持有透明度的图像缓冲区
+    BufferedImage buffer = g.getDeviceConfiguration().createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
+    g.dispose();
+    
+    // 绘制阴影
+    g = buffer.createGraphics();
+    g.setComposite(AlphaComposite.getInstance(AlphaComposite.XOR, 0.1f));
+    g.setColor(Color.BLACK);
+    g.fillRoundRect(x + 10, y + 10, width - 20, height, radius, radius);
+    g.dispose();
+    
+    // 绘制LOGO到缓冲区
+    g = buffer.createGraphics();
+    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 1));
     g.drawImage(logoImg, x, y, width, height, null);
 
     // 给logo画边框
@@ -184,10 +200,24 @@ public class QrcodeUtils {
     g.setStroke(new BasicStroke(logoConfig.getBorder()));
     g.setColor(logoConfig.getBorderColor());
     g.drawRoundRect(x, y, width, height, radius, radius);
-
+    g.setStroke(new BasicStroke(1));
+    g.setColor(Color.GRAY);
+    g.drawRoundRect(x + logoConfig.getBorder() / 2, y + logoConfig.getBorder() / 2, width - logoConfig.getBorder(), 
+        height - logoConfig.getBorder(), radius, radius);
+    g.dispose();
+    
+    // 将带阴影的图像绘制到二维码上
+    g = image.createGraphics();
+    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 1.0f));
+    g.drawImage(buffer, 0, 0, image.getWidth(), image.getHeight(), null);
     g.dispose();
   }
 
+  /**
+   * 为LOGO剪出圆角
+   * @param srcImage LOGO图像
+   * @return
+   */
   private static BufferedImage clipRound(BufferedImage srcImage) {
     int width = srcImage.getWidth();
     int height = srcImage.getHeight();

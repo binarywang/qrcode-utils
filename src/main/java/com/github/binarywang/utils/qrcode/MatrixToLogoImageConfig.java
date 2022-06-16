@@ -25,7 +25,7 @@ public class MatrixToLogoImageConfig {
   }
 
   public MatrixToLogoImageConfig(Color borderColor, int logoPart) {
-    this(DEFAULT_BORDERCOLOR, DEFAULT_LOGOPART, DEFAULT_BORDER);
+    this(borderColor, logoPart, DEFAULT_BORDER);
   }
 
   public MatrixToLogoImageConfig(Color borderColor, int logoPart, int border) {
