@@ -1,5 +1,6 @@
 package com.github.binarywang.utils.qrcode;
 
+import java.awt.image.BufferedImage;
 import com.beust.jcommander.internal.Lists;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.BasicConfigurator;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.*;
 import org.testng.annotations.*;
+import javax.imageio.ImageIO;
 
 import java.io.File;
 import java.io.InputStream;
@@ -65,6 +67,16 @@ public class QrcodeUtilsTest {
         for (Path path : generatedQrcodePaths) {
             Assert.assertEquals(QrcodeUtils.decodeQrcode(path.toFile()), content);
         }
+    }
+
+
+    @Test
+    public void testPersonCode() throws Exception {
+        File file = new File("/home/xkj/Pictures/tx1.mini.png");
+        File outFile = new File("/home/xkj/Temp/testQr.png");
+        outFile.createNewFile();
+        BufferedImage img = QrcodeUtils.generateQRCodeImage("https://www.baidu.com", file);
+        ImageIO.write(img, "png", outFile);
     }
 
 }

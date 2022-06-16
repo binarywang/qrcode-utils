@@ -3,6 +3,9 @@ package com.github.binarywang.utils.qrcode;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.RoundRectangle2D.Double;
+import java.awt.RenderingHints;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -164,10 +167,12 @@ public class QrcodeUtils {
   private static void overlapImage(final BufferedImage image, String format, final InputStream logo,
       MatrixToLogoImageConfig logoConfig) throws IOException {
     BufferedImage logoImg = ImageIO.read(logo);
+    logoImg = clipRound(logoImg);
     Graphics2D g = image.createGraphics();
     // 考虑到logo图片贴到二维码中，建议大小不要超过二维码的1/5;
     int width = image.getWidth() / logoConfig.getLogoPart();
     int height = image.getHeight() / logoConfig.getLogoPart();
+    int radius = width / 10;
     // logo起始位置，此目的是为logo居中显示
     int x = (image.getWidth() - width) / 2;
     int y = (image.getHeight() - height) / 2;
@@ -178,9 +183,23 @@ public class QrcodeUtils {
     // 构造一个具有指定线条宽度以及 cap 和 join 风格的默认值的实心 BasicStroke
     g.setStroke(new BasicStroke(logoConfig.getBorder()));
     g.setColor(logoConfig.getBorderColor());
-    g.drawRect(x, y, width, height);
+    g.drawRoundRect(x, y, width, height, radius, radius);
 
     g.dispose();
+  }
+
+  private static BufferedImage clipRound(BufferedImage srcImage) {
+    int width = srcImage.getWidth();
+    int height = srcImage.getHeight();
+    int radius = width / 10;
+
+    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g = image.createGraphics();
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    g.setClip(new RoundRectangle2D.Double(0, 0, width, height, radius, radius));
+    g.drawImage(srcImage, 0, 0, null);
+    g.dispose();
+    return image;
   }
 
   /**
