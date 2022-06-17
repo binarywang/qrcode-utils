@@ -1,5 +1,6 @@
 package com.github.binarywang.utils.qrcode;
 
+import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -76,9 +77,10 @@ public class QrcodeUtilsTest {
     @Test
     public void testPersonCode() throws Exception {
         BufferedImage img = QrcodeUtils.generateQRCodeImage(content, 400, ClassLoader.getSystemResourceAsStream("logo.png"));
-        File outFile = Files.createTempFile("qrcode_with_logo_", ".jpg").toFile();
+        File outFile = Files.createTempFile("qrcode_with_logo_", ".png").toFile();
         logger.info("{}", outFile.getAbsolutePath());
         ImageIO.write(img, "png", outFile);
+        Desktop.getDesktop().open(outFile);
     }
 
 }

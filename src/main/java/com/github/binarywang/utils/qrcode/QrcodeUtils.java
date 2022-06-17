@@ -82,10 +82,10 @@ public class QrcodeUtils {
    * @return 二维码图片的字节数组
    */
   public static byte[] createQrcode(String content, int length, File logoFile, MatrixToLogoImageConfig logoConfig) throws Exception {
-    if (logoFile == null || !logoFile.exists()) {
+    if (logoFile != null && !logoFile.exists()) {
       throw new IllegalArgumentException("请提供正确的logo文件！");
     }
-    InputStream logo = new FileInputStream(logoFile);
+    InputStream logo = logoFile == null ? null : new FileInputStream(logoFile);
     return createQrcode(content, length, logo, logoConfig);
   }
   
