@@ -163,7 +163,7 @@ public class QrcodeUtils {
    *
    * @param image     生成的二维码图片对象
    * @param imagePath 图片保存路径
-   * @param logoFile  logo文件对象
+   * @param logo  logo文件对象
    * @param format    图片格式
    */
   private static void overlapImage(final BufferedImage image, String format, final InputStream logo,
