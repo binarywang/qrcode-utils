@@ -6,8 +6,8 @@ script: "mvn clean package -Dmaven.test.skip=true"
 
 branches:
   only:
-    - master
+    - main
 
 notifications:
   email:
-    - binaryw@qq.com
+    - a@binarywang.com
