@@ -29,8 +29,7 @@ public final class BufferedImageLuminanceSource extends LuminanceSource {
     int sourceWidth = image.getWidth();
     int sourceHeight = image.getHeight();
     if (left + width > sourceWidth || top + height > sourceHeight) {
-      throw new IllegalArgumentException(
-        "Crop rectangle does not fit within image data.");
+      throw new IllegalArgumentException("Crop rectangle does not fit within image data.");
     }
 
     for (int y = top; y < top + height; y++) {
