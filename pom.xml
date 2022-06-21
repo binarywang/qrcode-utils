@@ -4,7 +4,7 @@
     <groupId>com.github.binarywang</groupId>
     <artifactId>qrcode-utils</artifactId>
     <packaging>jar</packaging>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
     <name>qrcode-utils</name>
     <url>https://github.com/binarywang/qrcode-utils</url>
     <description>qrcode utils</description>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
-            <version>3.2.1</version>
+            <version>3.5.0</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -154,9 +154,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.17</version>
-                    <configuration>
-                        <skip>true</skip>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

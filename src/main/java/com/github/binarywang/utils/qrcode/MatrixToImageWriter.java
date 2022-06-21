@@ -22,7 +22,7 @@ public final class MatrixToImageWriter {
   private MatrixToImageWriter() {
   }
 
-  private static BufferedImage toBufferedImage(BitMatrix matrix) {
+  public static BufferedImage toBufferedImage(BitMatrix matrix) {
     int width = matrix.getWidth();
     int height = matrix.getHeight();
     BufferedImage image = new BufferedImage(width, height,
