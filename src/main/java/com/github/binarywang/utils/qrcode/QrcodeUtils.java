@@ -216,7 +216,7 @@ public class QrcodeUtils {
   /**
    * 为LOGO剪出圆角
    * @param srcImage LOGO图像
-   * @return
+   *
    */
   private static BufferedImage clipRound(BufferedImage srcImage) {
     int width = srcImage.getWidth();
